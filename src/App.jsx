@@ -4,13 +4,15 @@ import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 const filteredMovies = (movies, query) => {
-  const normalizedQuery = query.trim().toLowerCase();
-
-  return movies.filter(
-    x =>
-      x.title.toLowerCase().includes(normalizedQuery) ||
-      x.description.toLowerCase().includes(normalizedQuery),
-  );
+  return movies.filter(movie => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const normalizedTitle = (movie.title || '').toLowerCase();
+    const normalizedDescription = (movie.description || '').toLowerCase();
+    return (
+      normalizedTitle.includes(normalizedQuery) ||
+      normalizedDescription.includes(normalizedQuery)
+    );
+  });
 };
 
 export const App = () => {
@@ -33,7 +35,7 @@ export const App = () => {
                 id="search-query"
                 className="input"
                 placeholder="Type search word"
-                onChange={event => setQuery(event.target.value.trim())}
+                onChange={event => setQuery(event.target.value)}
               />
             </div>
           </div>
