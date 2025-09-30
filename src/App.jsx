@@ -3,17 +3,13 @@ import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
-const filteredMovies = (arrMovies, query) => {
-  const movies = [...arrMovies];
-
-  if (query.length < 3) {
-    return movies;
-  }
+const filteredMovies = (movies, query) => {
+  const normalizedQuery = query.trim().toLowerCase();
 
   return movies.filter(
     x =>
-      x.title.toLowerCase().includes(query.toLowerCase()) ||
-      x.description.toLowerCase().includes(query.toLowerCase()),
+      x.title.toLowerCase().includes(normalizedQuery) ||
+      x.description.toLowerCase().includes(normalizedQuery),
   );
 };
 
@@ -37,7 +33,7 @@ export const App = () => {
                 id="search-query"
                 className="input"
                 placeholder="Type search word"
-                onChange={e => setQuery(e.currentTarget.value.trim())}
+                onChange={event => setQuery(event.target.value.trim())}
               />
             </div>
           </div>
